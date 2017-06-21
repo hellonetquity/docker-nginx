@@ -9,9 +9,9 @@ server {
 server {
     listen 443 default ssl;
     server_name ${FQDN};
-    ssl_certificate      /etc/ssl/private/fullchain.pem;
-    ssl_certificate_key  /etc/ssl/private/privkey.pem;
-    ssl_trusted_certificate /etc/ssl/private/chain.pem;
+    ssl_certificate      /run/secrets/fullchain.pem;
+    ssl_certificate_key  /run/secrets/privkey.pem;
+    ssl_trusted_certificate /run/secrets/chain.pem;
     root /usr/share/nginx/html/static;
 
 # TODO: uncomment when we figure out how we'll handle static files
