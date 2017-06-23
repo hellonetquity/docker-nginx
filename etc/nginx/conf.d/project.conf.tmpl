@@ -30,7 +30,7 @@ server {
 #     }
 
     location / {
-        proxy_pass  https://${PROXIED_SERVICE}:8000;
+        proxy_pass  http://${PROXIED_SERVICE}:8000;
         include     proxy_params;
     }
 }
