@@ -14,6 +14,18 @@ if [ x"${VHOSTS}" != x"" ]; then
     export PROXIED_SERVICE
     envsubst < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
   done
+  # Unconditional 301 redirects (mainly for www/bare)
+  # same format but target has to be full url (with https:// and all)
+  # NOTE: no trailing slash!
+  if [ x"${REDIRECTS}" != x"" ]; then
+    IFS=',' read -ra HOSTS_LIST <<< "$REDIRECTS"
+    for elem in "${HOSTS_LIST[@]}"; do
+      IFS='=' read -r FQDN TARGET <<< "$elem"
+      export FQDN
+      export TARGET
+      envsubst < /etc/nginx/conf.d/redirect.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+    done
+  fi
 else
   # Backward compatibility, single virtual host
   # (assuming FQDN/PROXIED_SERVICE are set)

@@ -1,0 +1,18 @@
+server {
+    listen 80;
+    server_name ${FQDN};
+    location / {
+        return 301 ${TARGET}$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name ${FQDN};
+    ssl_certificate      /run/secrets/fullchain.pem;
+    ssl_certificate_key  /run/secrets/privkey.pem;
+    ssl_trusted_certificate /run/secrets/chain.pem;
+    location / {
+        return 301 ${TARGET}$request_uri;
+    }
+}
