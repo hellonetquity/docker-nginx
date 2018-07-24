@@ -14,6 +14,8 @@ server {
     ssl_trusted_certificate /run/secrets/chain.pem;
     root /usr/share/nginx/html/static;
 
+    client_max_body_size 128m;
+
 # TODO: uncomment when we figure out how we'll handle static files
 # {% if enable_media_dir %}
 #     location /media {
