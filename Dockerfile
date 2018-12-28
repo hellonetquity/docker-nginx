@@ -1,4 +1,4 @@
-FROM nginx:1.12.0
+FROM nginx:1.14.2
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 443
