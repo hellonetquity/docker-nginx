@@ -1,3 +1,10 @@
+upstream upstream-${PROXIED_SERVICE} {
+    server ${PROXIED_SERVICE}:8000 resolve;
+    resolver 127.0.0.11;
+    keepalive 16;
+    keepalive_requests 128;
+}
+
 server {
     listen 80;
     listen [::]:80;
@@ -34,7 +41,7 @@ server {
 #     }
 
     location / {
-        proxy_pass  http://${PROXIED_SERVICE}:8000;
+        proxy_pass  http://upstream-${PROXIED_SERVICE};
         include     proxy_params;
     }
 }
