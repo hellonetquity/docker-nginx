@@ -1,5 +1,8 @@
 upstream upstream-${PROXIED_SERVICE} {
     server ${PROXIED_SERVICE}:8000;
+    server ${PROXIED_SERVICE}-1:8000;
+    server ${PROXIED_SERVICE}-2:8000;
+    server ${PROXIED_SERVICE}-3:8000;
     keepalive 16;
     keepalive_requests 128;
 }
