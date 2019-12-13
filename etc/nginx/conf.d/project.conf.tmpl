@@ -1,5 +1,6 @@
 upstream upstream-${PROXIED_SERVICE} {
-    server ${PROXIED_SERVICE}:8000 resolve;
+    set $backend_server ${PROXIED_SERVICE};
+    server $backend_server:8000;
     resolver 127.0.0.11;
     keepalive 16;
     keepalive_requests 128;
