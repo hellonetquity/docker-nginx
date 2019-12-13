@@ -1,7 +1,6 @@
 #!/bin/bash
 # Generate project configs before running commands
 set -e
-export backend_server='$backend_server'  # in lleu of escaping
 if [ x"${VHOSTS}" != x"" ]; then
   # parsing stuff with read can have its downsides
   # always check your input values and generated configs in case of any issues
