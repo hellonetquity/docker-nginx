@@ -11,7 +11,11 @@ if [ x"${VHOSTS}" != x"" ]; then
     IFS='=' read -r FQDN PROXIED_SERVICE <<< "$elem"
     export FQDN
     export PROXIED_SERVICE
-    envsubst < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+    if ["${PROXIED_SERVICE}" =~ "web$"]; then
+      envsubst < /etc/nginx/conf.d/slowbackend.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+    else
+      envsubst < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+    fi
   done
   # Unconditional 301 redirects (mainly for www/bare)
   # same format but target has to be full url (with https:// and all)
