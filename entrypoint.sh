@@ -11,7 +11,7 @@ if [ x"${VHOSTS}" != x"" ]; then
     IFS='=' read -r FQDN PROXIED_SERVICE <<< "$elem"
     export FQDN
     export PROXIED_SERVICE
-    if ["${PROXIED_SERVICE}" =~ "web$"]; then
+    if [ -z "${PROXIED_SERVICE##*web}" ]; then
       envsubst < /etc/nginx/conf.d/slowbackend.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
     else
       envsubst < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
