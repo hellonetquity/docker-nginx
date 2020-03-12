@@ -12,9 +12,9 @@ if [ x"${VHOSTS}" != x"" ]; then
     export FQDN
     export PROXIED_SERVICE
     if [ -z "${PROXIED_SERVICE##*web}" ]; then
-      envsubst < /etc/nginx/conf.d/slowbackend.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+      envsubst '\$FQDN \$PROXIED_SERVICE' < /etc/nginx/conf.d/slowbackend.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
     else
-      envsubst < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+      envsubst '\$FQDN \$PROXIED_SERVICE' < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
     fi
   done
   # Unconditional 301 redirects (mainly for www/bare)
@@ -26,13 +26,13 @@ if [ x"${VHOSTS}" != x"" ]; then
       IFS='=' read -r FQDN TARGET <<< "$elem"
       export FQDN
       export TARGET
-      envsubst < /etc/nginx/conf.d/redirect.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
+      envsubst '\$FQDN \$TARGET' < /etc/nginx/conf.d/redirect.conf.tmpl > /etc/nginx/conf.d/"${FQDN}".conf
     done
   fi
 else
   # Backward compatibility, single virtual host
   # (assuming FQDN/PROXIED_SERVICE are set)
-  envsubst < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/project.conf
+  envsubst '\$FQDN \$PROXIED_SERVICE' < /etc/nginx/conf.d/project.conf.tmpl > /etc/nginx/conf.d/project.conf
 fi
 
 exec "$@"
